@@ -7,6 +7,7 @@ import os
 def parse_args():
     parser = argparse.ArgumentParser(description='id card creator')
     parser.add_argument('-o', default='cards.html', help='output file to write to (in html)')
+    parser.add_argument('--columns', default=2, type=int, help='number of columns of cards per page')
     parser.add_argument('--type', default='player', help='player or vol')
     parser.add_argument('--infile',
                         required=True,
@@ -83,13 +84,28 @@ class HtmlPage(object):
     def add_card(self, card_html):
         self.cards.append(card_html)
 
-    def render(self):
+    def render(self, num_columns):
+        self.num_columns = num_columns
         res = self.top
-        for card in self.cards:
-            res += card
-            res += '<br>'
+        res += self.tabulate_cards()
         res += self.bottom
         return res
+
+    def tabulate_cards(self):
+        html = '<table cellspacing=20>'
+
+        for i, card in enumerate(self.cards):
+            position = i % self.num_columns
+            if position == 0:
+                html += '<tr>'
+            html += '<td>'
+            html += card
+            html += '</td>'
+            if position == self.num_columns - 1:
+                html += '</tr>'
+
+        html += '</table>'
+        return html
 
 
 def expand_individuals(individuals, from_eayso):
@@ -142,7 +158,7 @@ def main():
     for _, individual in individuals.items():
         card = id_card.create_card(individual)
         htmlPage.add_card(card)
-    html = htmlPage.render()
+    html = htmlPage.render(args.columns)
     with open(args.o, 'w') as fp:
         fp.write(html)
 
