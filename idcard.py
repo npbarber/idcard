@@ -37,9 +37,9 @@ class PlayerIDCard(object):
 
     def create_card(self, player):
         html = (
-            '<table style="font-family:courier; text-align:right;" border=1 cellspacing=0 cellpadding=10>'
+            '<table style="font-family:courier; text-align:right; width:300px;" border=1 cellspacing=0 cellpadding=10>'
             '<tr><td>'
-            '<table border=0 cellspacing=0 cellpadding=0>'
+            '<table style="width:300px; height:175px;" border=0 cellspacing=0 cellpadding=0>'
             '<col width=220>'
             '<tr>'
             '<td style="color:red;" colspan=2 align="center">'
@@ -59,7 +59,7 @@ class PlayerIDCard(object):
             '  </table>'
             '</td>'
             '<td>'
-            '<img width=100 src="%(image)s"></img>'
+            '<img style="max-width:100px; max-height:100px;" src="%(image)s"></img>'
             '</td>'
             '</tr>'
             '</table>'
