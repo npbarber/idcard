@@ -6,7 +6,7 @@ import os
 
 def parse_args():
     parser = argparse.ArgumentParser(description='id card creator')
-    parser.add_argument('-o', help='output file to write to (in html)')
+    parser.add_argument('-o', default='cards.html', help='output file to write to (in html)')
     parser.add_argument('--type', default='player', help='player or vol')
     parser.add_argument('--infile',
                         required=True,
