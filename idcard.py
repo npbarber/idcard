@@ -5,6 +5,7 @@ import os
 
 def parse_args():
     parser = argparse.ArgumentParser(description='id card creator')
+    parser.add_argument('-o', help='output file to write to (in html)')
     parser.add_argument('--type', default='player', help='player or vol')
     parser.add_argument('--infile', required=True, help='csv of players or vols from eayso')
     parser.add_argument('--imagedir', required=True, help='path to imagedir')
@@ -137,9 +138,8 @@ def main():
         card = id_card.create_card(individual)
         htmlPage.add_card(card)
     html = htmlPage.render()
-    with open('card1.html', 'w') as fp:
+    with open(args.o, 'w') as fp:
         fp.write(html)
-    pass
 
 
 if __name__ == '__main__':
