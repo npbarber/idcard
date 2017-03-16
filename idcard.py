@@ -92,17 +92,26 @@ class HtmlPage(object):
         return res
 
     def tabulate_cards(self):
+
+        #max number of rows we can fit on a sheet of paper
+        max_rows = 4
         html = '<table cellspacing=20>'
 
+        row_count = 0
         for i, card in enumerate(self.cards):
             position = i % self.num_columns
             if position == 0:
+                row_count += 1
                 html += '<tr>'
             html += '<td>'
             html += card
             html += '</td>'
             if position == self.num_columns - 1:
                 html += '</tr>'
+
+                if row_count == max_rows:
+                    row_count = 0
+                    html += '<tr height=100></tr>'
 
         html += '</table>'
         return html
