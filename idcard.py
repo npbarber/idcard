@@ -7,8 +7,13 @@ import re
 
 def parse_args():
     parser = argparse.ArgumentParser(description='id card creator')
-    parser.add_argument('-o', default='cards.html', help='output file to write to (in html)')
-    parser.add_argument('--columns', default=2, type=int, help='number of columns of cards per page')
+    parser.add_argument('-o',
+                        default='cards.html',
+                        help='output file to write to (in html)')
+    parser.add_argument('--columns',
+                        default=2,
+                        type=int,
+                        help='number of columns of cards per page')
     parser.add_argument('--type', default='player', help='player or vol')
     parser.add_argument('--infile',
                         required=True,
@@ -68,9 +73,6 @@ class VolunteerIDCard(object):
 
 
 class PlayerIDCard(object):
-    def __init__(self):
-        pass
-
     def create_card(self, player):
         html = (
             '<table style="font-family:courier; text-align:right; width:300px;" border=1 cellspacing=0 cellpadding=10>'
@@ -187,7 +189,6 @@ def get_cert_extractor(cert_desc):
 
 
 class ReadEaysoData(object):
-
     def __init__(self):
         self.eayso_data = {}
 
@@ -197,7 +198,6 @@ class ReadEaysoData(object):
 
 
 class ReadPlayerEaysoData(ReadEaysoData):
-
     def __init__(self):
         ReadEaysoData.__init__(self)
 
@@ -226,7 +226,6 @@ class ReadPlayerEaysoData(ReadEaysoData):
 
 
 class ReadVolEaysoData(ReadEaysoData):
-
     def __init__(self):
         ReadEaysoData.__init__(self)
 
@@ -260,7 +259,8 @@ class ReadVolEaysoData(ReadEaysoData):
                 self.eayso_data[ayso_id][k].add(v)
                 continue
             self.eayso_data[ayso_id][k] = v
-        import pdb; pdb.set_trace()
+        import pdb
+        pdb.set_trace()
 
 
 def get_eayso_reader(type):
