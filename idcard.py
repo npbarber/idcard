@@ -27,8 +27,43 @@ def get_image_and_id_data(path):
 
 
 class VolunteerIDCard(object):
-    def __init__(self):
-        raise NotImplementedError()
+    def create_card(self, volunteer):
+        volunteer['certs'] = '/'.join(volunteer['certs'])
+        html = (
+            '<table style="font-family:courier; text-align:right; width:300px;" border=1 cellspacing=0 cellpadding=10>'
+            '  <tr><td>'
+            '  <table style="width:300px; height:175px;" border=0 cellspacing=0 cellpadding=0>'
+            '    <tr>'
+            '    <td style="color:red;" colspan=2 align="center">'
+            '    AYSO Region 2 Volunteer ID'
+            '    </td>'
+            '    </tr>'
+            '    <tr>'
+            '    <td>'
+            '    <table>'
+            '      <tr>'
+            '      <td>'
+            '      <img style="max-width:100px; max-height:100px;" src="%(image)s"></img>'
+            '      </td>'
+            '      <tr><td style="color:red; font-weight:bold;" align="center">%(my)s</td></tr>'
+            '      </tr>'
+            '    </table>'
+            '    </td>'
+            '    <td align="left">'
+            '      <table style="font-size:70%%;" border=0>'
+            '      <tr><td style="font-weight:bold;" height=20 width="40%%">Name:</td><td>%(name)s</td></tr>'
+            '      <tr><td style="font-weight:bold;"  height=20>AYSO ID:</td><td>%(ayso_id)s</td></tr>'
+            '      <tr><td style="font-weight:bold;"  height=20>Coach:</td><td>%(certs)s</td></tr>'
+            '      <tr><td style="font-weight:bold;"  height=20>Safe Haven:</td><td>%(sh)s</td></tr>'
+            '      <tr><td style="font-weight:bold;"  height=20>Concussion:</td><td>%(cdc)s</td></tr>'
+            '      <tr><td style="font-weight:bold;"  height=30>RC Sig:</td><td></td></tr>'
+            '      </table>'
+            '    </td>'
+            '    </tr>'
+            '    </table>'
+            '  </tr></td>'
+            '</table>')
+        return html % volunteer
 
 
 class PlayerIDCard(object):
