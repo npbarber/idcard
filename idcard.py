@@ -159,10 +159,6 @@ def expand_individuals(individuals, from_eayso):
     return individuals
 
 
-def read_vol_eayso_data(filename):
-    raise NotImplementedError
-
-
 def extract_safe_haven(parts):
     return 'sh', parts[12]
 
@@ -229,12 +225,48 @@ class ReadPlayerEaysoData(ReadEaysoData):
                 continue
 
 
+class ReadVolEaysoData(ReadEaysoData):
+
+    def __init__(self):
+        ReadEaysoData.__init__(self)
+
+    def __call__(self, filename):
+        self.filename = filename
+        self.read_file()
+        self.read_eayso_data()
+        return self.eayso_data
+
+    def read_eayso_data(self):
+        for line in self.lines[1:]:
+            line = line.replace('"', '')
+            parts = line.split(',')
+            ayso_id = parts[0]
+            try:
+                self.eayso_data[ayso_id]
+            except KeyError:
+                self.eayso_data[ayso_id] = {'certs': set()}
+
+            self.eayso_data[ayso_id].update({
+                'ayso_id': ayso_id,
+                'my': parts[19].strip(),
+                'name': '%s' % parts[1],
+            })
+
+            extract_cert = get_cert_extractor(parts[9])
+            k, v = extract_cert(parts)
+            if v is None:
+                continue
+            if k == 'certs':
+                self.eayso_data[ayso_id][k].add(v)
+                continue
+            self.eayso_data[ayso_id][k] = v
+        import pdb; pdb.set_trace()
 
 
 def get_eayso_reader(type):
     return {
-        'vol': read_vol_eayso_data
         'player': ReadPlayerEaysoData(),
+        'vol': ReadVolEaysoData()
     }.get(type)
 
 
