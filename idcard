@@ -204,7 +204,7 @@ class ReadPlayerEaysoData(ReadEaysoData):
     def __call__(self, filename):
         self.filename = filename
         self.read_file()
-        self._read_eayso_data()
+        self.read_eayso_data()
         return self.eayso_data
 
     def read_eayso_data(self):
@@ -259,8 +259,6 @@ class ReadVolEaysoData(ReadEaysoData):
                 self.eayso_data[ayso_id][k].add(v)
                 continue
             self.eayso_data[ayso_id][k] = v
-        import pdb
-        pdb.set_trace()
 
 
 def get_eayso_reader(type):
