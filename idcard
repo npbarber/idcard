@@ -4,6 +4,8 @@ import argparse
 import os
 import re
 
+from glob import glob
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description='id card creator')
@@ -23,12 +25,11 @@ def parse_args():
 
 
 def get_image_and_id_data(path):
-    image_files = os.listdir(path)
+    image_files = glob('%s/[0-9][0-9]*.*' % path)
     res = {}
     for image_file in image_files:
-        ayso_id, _ = image_file.split('.')
-        abs_image_file = os.path.join(path, image_file)
-        res[ayso_id] = {'ayso_id': ayso_id, 'image': abs_image_file}
+        ayso_id, _ = os.path.basename(image_file).split('.')
+        res[ayso_id] = {'ayso_id': ayso_id, 'image': image_file}
     return res
 
 
