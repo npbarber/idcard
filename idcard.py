@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import re
 
 
 def parse_args():
@@ -182,6 +183,33 @@ def read_player_eayso_data(filename):
         except IndexError:
             continue
     return eayso_data
+def extract_safe_haven(parts):
+    return 'sh', parts[12]
+
+
+def extract_concussion(parts):
+    return 'cdc', parts[12]
+
+
+def extract_coach(parts):
+    r = re.match(r'.*(U-\d+|Adv|Inter)', parts[9])
+    try:
+        cert = r.groups()[0]
+    except AttributeError:
+        cert = None
+    return 'certs', cert
+
+
+def get_cert_extractor(cert_desc):
+    if 'AYSOs Safe Haven' in cert_desc:
+        return extract_safe_haven
+    if 'CDC Concussion' in cert_desc:
+        return extract_concussion
+    if 'Coach' in cert_desc:
+        return extract_coach
+    return lambda parts: (None, None)
+
+
 
 
 def get_eayso_reader(type):
