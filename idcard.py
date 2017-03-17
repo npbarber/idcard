@@ -163,26 +163,6 @@ def read_vol_eayso_data(filename):
     raise NotImplementedError
 
 
-def read_player_eayso_data(filename):
-    eayso_data = {}
-    with open(filename) as fp:
-        lines = fp.readlines()
-    for line in lines[1:]:
-        line = line.replace('"', '')
-        parts = line.split(',')
-        try:
-            ayso_id = parts[3]
-            eayso_data[ayso_id] = {
-                'my': 'MY2016',
-                'program': 'Area 1/C Spring Cup',
-                'sar': '%s-%s-%s' % (parts[0], parts[1], parts[2]),
-                'name': '%s %s' % (parts[4], parts[6]),
-                'division': '%s%s' % (parts[20], parts[25]),
-                'dob': parts[21]
-            }
-        except IndexError:
-            continue
-    return eayso_data
 def extract_safe_haven(parts):
     return 'sh', parts[12]
 
@@ -210,12 +190,51 @@ def get_cert_extractor(cert_desc):
     return lambda parts: (None, None)
 
 
+class ReadEaysoData(object):
+
+    def __init__(self):
+        self.eayso_data = {}
+
+    def read_file(self):
+        with open(self.filename) as fp:
+            self.lines = fp.readlines()
+
+
+class ReadPlayerEaysoData(ReadEaysoData):
+
+    def __init__(self):
+        ReadEaysoData.__init__(self)
+
+    def __call__(self, filename):
+        self.filename = filename
+        self.read_file()
+        self._read_eayso_data()
+        return self.eayso_data
+
+    def read_eayso_data(self):
+        for line in self.lines[1:]:
+            line = line.replace('"', '')
+            parts = line.split(',')
+            try:
+                ayso_id = parts[3]
+                self.eayso_data[ayso_id] = {
+                    'my': 'MY2016',
+                    'program': 'Area 1/C Spring Cup',
+                    'sar': '%s-%s-%s' % (parts[0], parts[1], parts[2]),
+                    'name': '%s %s' % (parts[4], parts[6]),
+                    'division': '%s%s' % (parts[20], parts[25]),
+                    'dob': parts[21]
+                }
+            except IndexError:
+                continue
+
+
 
 
 def get_eayso_reader(type):
     return {
-        'player': read_player_eayso_data,
         'vol': read_vol_eayso_data
+        'player': ReadPlayerEaysoData(),
     }.get(type)
 
 
