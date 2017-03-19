@@ -212,8 +212,8 @@ class ReadPlayerEaysoData(ReadEaysoData):
 
     def read_eayso_data(self):
         for line in self.lines[1:]:
-            line = line.replace('"', '')
-            parts = line.split(',')
+            line = line.lstrip('"')
+            parts = line.split('","')
             try:
                 ayso_id = parts[3]
                 self.eayso_data[ayso_id] = {
