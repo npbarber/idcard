@@ -217,8 +217,6 @@ class ReadPlayerEaysoData(ReadEaysoData):
             try:
                 ayso_id = parts[3]
                 self.eayso_data[ayso_id] = {
-                    'my': 'MY2016',
-                    'program': 'Area 1/C Spring Cup',
                     'sar': '%s-%s-%s' % (parts[0], parts[1], parts[2]),
                     'name': '%s %s' % (parts[4], parts[6]),
                     'division': '%s%s' % (parts[20], parts[25]),
@@ -279,7 +277,12 @@ def main():
     htmlPage = HtmlPage()
     id_card = get_id_card_builder(args.type)()
     individuals = expand_individuals(individuals, eayso_data)
+
     for _, individual in individuals.items():
+        individual.update({
+            'my': 'MY2016',
+            'program': '1/C 2017 Spring Cup'
+        })
         card = id_card.create_card(individual)
         htmlPage.add_card(card)
     html = htmlPage.render(args.columns)
