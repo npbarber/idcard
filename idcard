@@ -184,7 +184,7 @@ def extract_coach(parts):
 def get_cert_extractor(cert_desc):
     if 'AYSOs Safe Haven' in cert_desc:
         return extract_safe_haven
-    if 'CDC Concussion' in cert_desc:
+    if 'Concussion' in cert_desc:
         return extract_concussion
     if 'Coach' in cert_desc:
         return extract_coach
