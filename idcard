@@ -249,7 +249,7 @@ class ReadVolEaysoData(ReadEaysoData):
             self.eayso_data[ayso_id].update({
                 'ayso_id': ayso_id,
                 'my': parts[19].strip(),
-                'name': '%s' % parts[1],
+                'name': '%s' % parts[1].upper(),
             })
 
             extract_cert = get_cert_extractor(parts[9])
