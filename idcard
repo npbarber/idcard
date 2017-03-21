@@ -36,7 +36,7 @@ def get_image_and_id_data(path):
 
 class VolunteerIDCard(object):
     def create_card(self, volunteer):
-        volunteer['certs'] = '/'.join(volunteer['certs'])
+        volunteer['certs'] = ' '.join(volunteer['certs'])
         html = (
             '<table style="font-family:courier; text-align:right; width:300px;" border=1 cellspacing=0 cellpadding=10>'
             '  <tr><td>'
@@ -173,9 +173,9 @@ def extract_concussion(parts):
 
 
 def extract_coach(parts):
-    r = re.match(r'.*(U-\d+|Adv|Inter)', parts[9])
+    r = re.match(r'.*(U-\d+|Adv|Int)', parts[9])
     try:
-        cert = r.groups()[0]
+        cert = r.groups()[0].replace('-', '')
     except AttributeError:
         cert = None
     return 'certs', cert
