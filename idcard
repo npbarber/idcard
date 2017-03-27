@@ -17,6 +17,7 @@ def parse_args():
                         type=int,
                         help='number of columns of cards per page')
     parser.add_argument('--type', default='player', help='player or vol')
+    parser.add_argument('--program', default='Primary', help='program name ex: All Stars 2017')
     parser.add_argument('--infile',
                         required=True,
                         help='csv of players or vols from eayso')
@@ -281,7 +282,7 @@ def main():
     for _, individual in individuals.items():
         individual.update({
             'my': 'MY2016',
-            'program': '1/C 2017 Spring Cup'
+            'program': args.program
         })
         card = id_card.create_card(individual)
         htmlPage.add_card(card)
