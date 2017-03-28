@@ -9,18 +9,18 @@ from glob import glob
 
 def parse_args():
     parser = argparse.ArgumentParser(description='id card creator')
-    parser.add_argument('-o',
-                        default='cards.html',
-                        help='output file to write to (in html)')
-    parser.add_argument('--columns',
-                        default=2,
-                        type=int,
-                        help='number of columns of cards per page')
+    parser.add_argument(
+        '-o', default='cards.html', help='output file to write to (in html)')
+    parser.add_argument(
+        '--columns',
+        default=2,
+        type=int,
+        help='number of columns of cards per page')
     parser.add_argument('--type', default='player', help='player or vol')
-    parser.add_argument('--program', default='Primary', help='program name ex: All Stars 2017')
-    parser.add_argument('--infile',
-                        required=True,
-                        help='csv of players or vols from eayso')
+    parser.add_argument(
+        '--program', default='Primary', help='program name ex: All Stars 2017')
+    parser.add_argument(
+        '--infile', required=True, help='csv of players or vols from eayso')
     parser.add_argument('--imagedir', required=True, help='path to imagedir')
     return parser.parse_args()
 
@@ -280,10 +280,7 @@ def main():
     individuals = expand_individuals(individuals, eayso_data)
 
     for _, individual in individuals.items():
-        individual.update({
-            'my': 'MY2016',
-            'program': args.program
-        })
+        individual.update({'my': 'MY2016', 'program': args.program})
         card = id_card.create_card(individual)
         htmlPage.add_card(card)
     html = htmlPage.render(args.columns)
